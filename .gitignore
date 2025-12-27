@@ -118,3 +118,6 @@ _ul
 *.fls
 *.synctex.gz
 *.out
+
+# Local-only files
+VIDEO_VOICEOVER_SCRIPT.md
