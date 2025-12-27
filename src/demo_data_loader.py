@@ -261,14 +261,28 @@ def load_session(filename):
 # Serve static dashboard files
 @app.route('/')
 def serve_index():
-    """Serve dashboard index.html"""
-    return send_from_directory('.', 'index.html')
+    """Serve demo dashboard"""
+    return send_from_directory('.', 'demo.html')
+
+
+@app.route('/demo.html')
+def serve_demo():
+    """Serve demo dashboard"""
+    return send_from_directory('.', 'demo.html')
 
 
 @app.route('/<path:path>')
 def serve_static(path):
     """Serve static files"""
-    return send_from_directory('.', path)
+    # Serve static files from root directory
+    try:
+        return send_from_directory('.', path)
+    except:
+        # If file not found, try from assets folder
+        try:
+            return send_from_directory('assets', path)
+        except:
+            return "File not found", 404
 
 
 def main():
@@ -298,12 +312,15 @@ def main():
     print("  GET  /api/playback/reset      - Reset playback")
     print("  GET  /api/sessions/list       - List available sessions")
     print("  GET  /api/sessions/load/<fn>  - Load specific session")
-    print("\nAPI Server: http://localhost:8000")
-    print("Dashboard: http://localhost:5180 (serve separately)")
+    # Get port from environment (for deployment) or use 8000 for local
+    port = int(os.environ.get('PORT', 8000))
+
+    print(f"\nAPI Server: http://localhost:{port}")
+    print("Dashboard: Served at root URL")
     print("="*70)
 
     # Start Flask server
-    app.run(host='0.0.0.0', port=8000, debug=False)
+    app.run(host='0.0.0.0', port=port, debug=False)
 
 
 if __name__ == "__main__":
