@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  # Sensor Simulator (Kafka Producer)
+  sensor-simulator:
+    build: .
+    container_name: equinesync-sensor-simulator
+    command: python src/sensor_simulator.py --duration 3600 --lameness
+    env_file:
+      - .env
+    environment:
+      - LOG_LEVEL=INFO
+    restart: unless-stopped
+    networks:
+      - equinesync-network
+
+  # Stream Processor (Kafka Consumer + Vertex AI)
+  stream-processor:
+    build: .
+    container_name: equinesync-stream-processor
+    command: python src/stream_processor.py
+    env_file:
+      - .env
+    environment:
+      - LOG_LEVEL=INFO
+      - GOOGLE_APPLICATION_CREDENTIALS=/app/config/service-account.json
+    volumes:
+      - ./config/service-account.json:/app/config/service-account.json:ro
+    restart: unless-stopped
+    networks:
+      - equinesync-network
+    depends_on:
+      - sensor-simulator
+
+networks:
+  equinesync-network:
+    driver: bridge

@@ -1,0 +1,113 @@
+{
+  "topics": [
+    {
+      "name": "sensor-data-raw",
+      "partitions": 4,
+      "replication_factor": 3,
+      "config": {
+        "retention.ms": "604800000",
+        "compression.type": "snappy",
+        "max.message.bytes": "1048576"
+      },
+      "schema": {
+        "type": "record",
+        "name": "SensorData",
+        "fields": [
+          {"name": "sensor_id", "type": "string"},
+          {"name": "timestamp", "type": "long"},
+          {"name": "accel_x", "type": "float"},
+          {"name": "accel_y", "type": "float"},
+          {"name": "accel_z", "type": "float"},
+          {"name": "gyro_x", "type": "float"},
+          {"name": "gyro_y", "type": "float"},
+          {"name": "gyro_z", "type": "float"},
+          {"name": "hr_rr_interval", "type": ["null", "float"], "default": null}
+        ]
+      }
+    },
+    {
+      "name": "gait-analysis",
+      "partitions": 2,
+      "replication_factor": 3,
+      "config": {
+        "retention.ms": "2592000000",
+        "compression.type": "snappy"
+      },
+      "schema": {
+        "type": "record",
+        "name": "GaitAnalysis",
+        "fields": [
+          {"name": "horse_id", "type": "string"},
+          {"name": "timestamp", "type": "long"},
+          {"name": "symmetry_front", "type": "float"},
+          {"name": "symmetry_hind", "type": "float"},
+          {"name": "symmetry_diagonal", "type": "float"},
+          {"name": "symmetry_total", "type": "float"},
+          {"name": "stride_frequency", "type": "float"},
+          {"name": "gait_type", "type": "string"},
+          {"name": "leg_health_scores", "type": {
+            "type": "map",
+            "values": "float"
+          }},
+          {"name": "confidence_score", "type": "float"}
+        ]
+      }
+    },
+    {
+      "name": "hrv-metrics",
+      "partitions": 1,
+      "replication_factor": 3,
+      "config": {
+        "retention.ms": "2592000000",
+        "compression.type": "snappy"
+      },
+      "schema": {
+        "type": "record",
+        "name": "HRVMetrics",
+        "fields": [
+          {"name": "horse_id", "type": "string"},
+          {"name": "timestamp", "type": "long"},
+          {"name": "sdnn", "type": "float"},
+          {"name": "rmssd", "type": "float"},
+          {"name": "pnn50", "type": "float"},
+          {"name": "stress_level", "type": "string"},
+          {"name": "emotional_state", "type": "string"},
+          {"name": "rider_bond_score", "type": "float"}
+        ]
+      }
+    },
+    {
+      "name": "alerts",
+      "partitions": 2,
+      "replication_factor": 3,
+      "config": {
+        "retention.ms": "7776000000",
+        "compression.type": "snappy"
+      },
+      "schema": {
+        "type": "record",
+        "name": "HealthAlert",
+        "fields": [
+          {"name": "alert_id", "type": "string"},
+          {"name": "horse_id", "type": "string"},
+          {"name": "timestamp", "type": "long"},
+          {"name": "alert_type", "type": {
+            "type": "enum",
+            "name": "AlertType",
+            "symbols": ["ASYMMETRY", "IMPACT", "IRREGULARITY", "HRV_CRITICAL", "EMOTIONAL_DISTRESS"]
+          }},
+          {"name": "severity", "type": {
+            "type": "enum",
+            "name": "Severity",
+            "symbols": ["INFO", "WARNING", "CRITICAL"]
+          }},
+          {"name": "affected_leg", "type": ["null", "string"], "default": null},
+          {"name": "metric_value", "type": "float"},
+          {"name": "threshold", "type": "float"},
+          {"name": "message", "type": "string"},
+          {"name": "recommendation", "type": "string"}
+        ]
+      }
+    }
+  ]
+}

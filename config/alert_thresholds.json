@@ -1,0 +1,84 @@
+{
+  "gait_symmetry": {
+    "symmetry_score_critical": 60,
+    "symmetry_score_warning": 75,
+    "consecutive_readings_required": 3,
+    "scaling_factors": {
+      "k_front": 25,
+      "k_hind": 25,
+      "k_diag": 30
+    },
+    "weights": {
+      "w_front": 0.35,
+      "w_hind": 0.35,
+      "w_diag": 0.30
+    }
+  },
+  "hrv_metrics": {
+    "sdnn": {
+      "good": 50,
+      "warning": 30,
+      "alert": 30
+    },
+    "rmssd": {
+      "good": 40,
+      "warning": 20,
+      "alert": 20
+    },
+    "pnn50": {
+      "good": 3,
+      "warning": 1,
+      "alert": 1
+    }
+  },
+  "impact_detection": {
+    "peak_accel_multiplier": 2.5,
+    "baseline_accel_g": 1.0
+  },
+  "irregularity": {
+    "stride_variability_multiplier": 1.5,
+    "normal_std_dev_sec": 0.05
+  },
+  "leg_health_scoring": {
+    "variability_weight": 20,
+    "variability_cap": 40,
+    "frequency_weight": 15,
+    "frequency_cap": 30,
+    "deviation_weight": 10,
+    "deviation_cap": 30
+  },
+  "gait_classification": {
+    "stand": {"min_hz": 0.0, "max_hz": 0.3},
+    "walk": {"min_hz": 0.3, "max_hz": 1.0},
+    "trot": {"min_hz": 1.0, "max_hz": 1.8},
+    "canter": {"min_hz": 1.8, "max_hz": 2.5},
+    "gallop": {"min_hz": 2.5, "max_hz": 10.0}
+  },
+  "alert_messages": {
+    "ASYMMETRY": {
+      "title": "⚠️ Gait Asymmetry Detected",
+      "message_template": "{affected_leg} showing {metric_value:.1f}% symmetry (threshold: {threshold}%)",
+      "recommendation": "Reduce training intensity. Schedule veterinary examination within 48 hours."
+    },
+    "IMPACT": {
+      "title": "🔴 Excessive Impact Detected",
+      "message_template": "Peak acceleration {metric_value:.2f}g detected on {affected_leg} (baseline: {threshold:.2f}g)",
+      "recommendation": "Check ground conditions. Inspect {affected_leg} for injury or soreness."
+    },
+    "IRREGULARITY": {
+      "title": "⚡ Stride Irregularity Alert",
+      "message_template": "Stride variability {metric_value:.3f}s (normal: {threshold:.3f}s)",
+      "recommendation": "Monitor for signs of pain or discomfort. Consider gait analysis."
+    },
+    "HRV_CRITICAL": {
+      "title": "❤️ Critical HRV Alert",
+      "message_template": "SDNN={metric_value:.1f}ms indicates high stress (normal: >{threshold}ms)",
+      "recommendation": "Immediate rest required. Assess for pain, anxiety, or environmental stressors."
+    },
+    "EMOTIONAL_DISTRESS": {
+      "title": "🧠 Emotional Bond Alert",
+      "message_template": "Horse-rider bond score: {metric_value:.0f}/100",
+      "recommendation": "Consider relationship-building exercises, groundwork, or consultation with equine behaviorist."
+    }
+  }
+}

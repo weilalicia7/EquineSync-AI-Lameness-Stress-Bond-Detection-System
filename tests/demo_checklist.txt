@@ -1,0 +1,24 @@
+EQUINESYNC DEMO CHECKLIST
+========================
+
+When you open http://localhost:5180/demo.html, you should see:
+
+HEADER SECTION:
+□ Horse icon (🐴) on the left
+□ "EquineSync" title
+□ "Real-Time Horse Health Monitoring & Lameness Detection" subtitle
+□ Green "● ONLINE" badge (top left area)
+
+MAIN DASHBOARD:
+□ Red/burgundy "LAMENESS ALERT" banner (if past 60 seconds)
+□ Three cards: Session Information, Gait Symmetry Analysis, Heart Rate Variability
+□ Numbers updating in real-time
+
+BOTTOM SECTION:
+□ Toggle button: "🔍 Data Inspector" (switches view)
+□ Progress timeline showing session progress
+
+If you DON'T see these, check:
+1. URL bar shows: http://localhost:5180/demo.html (NOT file:///)
+2. Press Ctrl+Shift+R to hard refresh
+3. Open browser console (F12) and check for errors
