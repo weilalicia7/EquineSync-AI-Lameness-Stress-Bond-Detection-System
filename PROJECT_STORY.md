@@ -20,10 +20,43 @@ Caring for a lame horse is expensive and emotionally draining. Veterinary bills,
 
 **EquineSync** is an AI-powered analytics platform that monitors four-legged animals (primarily horses) for early signs of lameness and health issues through:
 
-1. **Gait Symmetry Analysis** - Detecting subtle asymmetries across all four legs
-2. **Heart Rate Variability (HRV) Monitoring** - Assessing stress and cardiac health
-3. **Real-Time Leg Detection** - Auto-identifying which sensor is on which leg
-4. **Alert System** - Flagging potential issues before they become serious
+1. **Gait Symmetry Analysis** - Detecting subtle asymmetries across all four legs with real-time visualization
+2. **Heart Rate Variability (HRV) Monitoring** - Assessing stress and cardiac health using ESC/NASPE standards
+3. **Individual Leg Health Scoring** - 0-100 health scores for each leg with predictive deductions
+4. **Horse-Rider Emotional Bond Tracking** - Monitoring emotional synchronization and stress impact on partnership
+5. **Real-Time Leg Detection** - Auto-identifying which sensor is on which leg
+6. **Session Result Reports** - Period-by-period behavioral analysis with downloadable comprehensive reports
+7. **Alert System** - Flagging potential issues before they become serious
+8. **Live Event Logging** - Session progress tracking with timestamped milestone events
+
+### Advanced Dashboard Features
+
+The EquineSync real-time monitoring dashboard provides:
+
+- **Live Visualization**: Real-time charts using Chart.js displaying:
+  - Symmetry evolution (overall, front, hind) over session duration
+  - 4-leg amplitude tracking with color-coded lines
+  - HRV trend analysis (SDNN over time)
+  - Horse-rider bond score evolution
+
+- **Session Progress Log**: Live event feed showing:
+  - System initialization and milestone events
+  - Alert triggers with timestamps
+  - Health score changes and degradation warnings
+  - Critical events (e.g., lameness onset detection)
+
+- **Period-by-Period Analysis**: Automatic breakdown into 30-second periods showing:
+  - Average symmetry and bond scores per period
+  - Behavioral observations (baseline, onset, compensation)
+  - Color-coded status indicators (green/orange/red)
+  - Comparative analysis across time periods
+
+- **Downloadable Reports**: Comprehensive text-based clinical reports including:
+  - Minute-by-minute behavioral analysis
+  - Statistical summaries (min/max/average metrics)
+  - Alert history and timeline
+  - Clinical recommendations with urgency levels
+  - Veterinary action items and follow-up protocols
 
 ---
 
@@ -197,7 +230,31 @@ Where deductions are calculated from:
 - Frequency anomalies
 - Deviation from healthy movement patterns
 
-#### 6. Alert Generation
+#### 6. Horse-Rider Emotional Bond Analysis
+
+The horse-rider bond score quantifies the emotional connection and partnership quality:
+
+$$Bond_{score} = Bond_{base} + \alpha \cdot (SDNN - SDNN_{ref}) - \beta \cdot t_{stress}$$
+
+Where:
+- $Bond_{base}$: Initial bond score (typically 85-95 for established partnerships)
+- $\alpha = 0.3$: HRV adjustment factor
+- $SDNN_{ref} = 40$ ms: Reference SDNN value
+- $\beta = 0.4$: Stress duration penalty factor (points per second)
+- $t_{stress}$: Time elapsed since stress onset (e.g., lameness detection)
+
+The bond score is clamped to $[0, 100]$ and interpreted as:
+
+| Score Range | Interpretation |
+|-------------|----------------|
+| 80-100 | Excellent Partnership |
+| 65-79 | Strong Connection |
+| 50-64 | Moderate Bond |
+| < 50 | Stress Affecting Bond |
+
+**Clinical Significance:** Bond degradation indicates that pain or discomfort is affecting the horse's responsiveness to rider cues, impacting training effectiveness and partnership quality.
+
+#### 7. Alert Generation
 
 Alerts trigger when:
 
@@ -238,9 +295,12 @@ Complex biomechanical data needs to be understandable for trainers without medic
 - **Google Cloud AI** - Deploying Vertex AI models for streaming ML inference at scale
 - **Equine biomechanics** - How horses distribute weight, compensate for pain, and how subtle lameness manifests
 - **Signal processing** - FFT for frequency analysis, cross-correlation for leg pairing, Kalman filtering for stability
-- **HRV science** - The parasympathetic nervous system's role in stress detection
+- **HRV science** - The parasympathetic nervous system's role in stress detection and emotional bond assessment
 - **Stream processing patterns** - Handling 400+ messages/sec with low latency and high reliability
 - **Tableau Developer Platform** - APIs, embedding, and real-time data integration
+- **Data visualization** - Implementing real-time Chart.js visualizations for biomechanical data
+- **Authentic research data integration** - Processing and streaming the "Horsing Around" dataset (4TU ResearchData, CC0 license) containing genuine equine IMU data
+- **Clinical report generation** - Creating actionable, veterinary-grade reports with period-by-period analysis
 
 ---
 
@@ -280,6 +340,7 @@ No horse should suffer because their lameness wasn't caught early. No buyer shou
 **Data Streaming & Processing:**
 - Confluent Cloud (Apache Kafka)
 - Stream processing at 400 msgs/sec
+- Flask API server for real-time data endpoints
 
 **AI & Machine Learning:**
 - Google Vertex AI / Gemini
@@ -291,8 +352,19 @@ No horse should suffer because their lameness wasn't caught early. No buyer shou
 - Tableau Cloud
 - Cloud Run, Cloud Storage, BigQuery
 
+**Frontend & Visualization:**
+- React.js (Main dashboard UI)
+- Chart.js (Real-time data visualization)
+- HTML5/CSS3 (Advanced monitoring interface)
+- Vite (Build tooling and optimization)
+
+**Data Sources:**
+- Horsing Around Dataset (4TU ResearchData, CC0 License)
+- 10.96 GB authentic equine IMU data
+- 148 CSV files with 100Hz sampling rate
+
 **Hardware:**
-- IMU Sensors (±16g accelerometer, ±2000°/s gyro)
+- IMU Sensors (±16g accelerometer, ±2000°/s gyroscope)
 - Heart Rate Monitors (R-R interval detection)
 
 **Integration:**
@@ -302,4 +374,4 @@ No horse should suffer because their lameness wasn't caught early. No buyer shou
 
 ---
 
-*Built with Confluent Kafka, Vertex AI, Tableau Cloud, Python, and a deep love for horses.*
+*Built with Confluent Kafka, Vertex AI, Tableau Cloud, React, Chart.js, Python, authentic research data, and a deep love for horses.*
